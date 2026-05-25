@@ -5,103 +5,221 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Golden Grace Bernal — Operations & Systems</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&family=Syne:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&family=Syne:wght@500;700&display=swap');
-
   :root {
+    --bg: #030712;
     --glass-bg: rgba(255, 255, 255, 0.03); 
-    --glass-border: rgba(255, 255, 255, 0.12); 
-    --glass-blur: blur(25px); 
+    --glass-border: rgba(255, 255, 255, 0.1); 
+    --glass-blur: blur(16px); 
     --text-primary: #f8fafc; 
     --text-secondary: #94a3b8; 
-    --skill-chip: rgba(255, 255, 255, 0.05);
-    --skill-border: rgba(255, 255, 255, 0.15);
+    --accent: #e2e8f0;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   body {
-    background-color: #000; 
+    background-color: var(--bg); 
     color: var(--text-primary);
     font-family: 'Outfit', sans-serif; 
-    line-height: 1.7;
+    line-height: 1.6;
     overflow-x: hidden;
-    position: relative;
-    min-height: 100vh;
   }
 
-  /* This turns your existing main content area into the Glass Box! */
-  main {
-    position: relative;
-    z-index: 10; 
+  /* BACKGROUND CANVAS & ORBS */
+  #bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: -2;
+  }
+
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: -1;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  .orb1 { top: -20%; left: -10%; width: 50vw; height: 50vw; background: rgba(125, 211, 252, 0.2); }
+  .orb2 { bottom: -20%; right: -10%; width: 40vw; height: 40vw; background: rgba(196, 181, 253, 0.2); }
+  .orb3 { top: 40%; left: 40%; width: 30vw; height: 30vw; background: rgba(255, 255, 255, 0.1); }
+
+  /* TYPOGRAPHY */
+  h1, h2, h3, .logo, .stat-num, .project-num, .tl-date { 
+    font-family: 'Syne', sans-serif; 
+  }
+
+  /* NAVIGATION */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 5%;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(3, 7, 18, 0.4);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+  }
+  .logo { font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; color: #fff; }
+  .nav-links { display: flex; gap: 2rem; align-items: center; }
+  .nav-links a { color: var(--text-secondary); text-decoration: none; cursor: pointer; transition: 0.3s; font-size: 14px; }
+  .nav-links a:hover { color: #fff; }
+  .nav-cta { background: #fff; color: #000; border: none; padding: 0.6rem 1.5rem; border-radius: 100px; font-family: 'Outfit'; font-weight: 500; cursor: pointer; transition: 0.3s; }
+  .nav-cta:hover { background: var(--text-secondary); }
+
+  /* HERO */
+  .hero {
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 5%;
+  }
+  .badge {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    border-radius: 32px; 
-    padding: 5rem 4rem; 
-    max-width: 900px; 
-    margin: 4rem auto; /* Centers the box */
-    backdrop-filter: var(--glass-blur);
-    -webkit-backdrop-filter: var(--glass-blur); 
-    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
-  }
-
-  section { margin-bottom: 4rem; }
-  
-  h1, .hero h1 { 
-    font-family: 'Syne', sans-serif; 
-    font-size: 52px; 
-    letter-spacing: 3px; 
-    margin-bottom: 2.5rem; 
-    font-weight: 700; 
-    text-transform: uppercase;
-  }
-
-  h2, h3 { 
-    font-family: 'Syne', sans-serif;
-    font-size: 16px; 
-    text-transform: uppercase; 
-    letter-spacing: 2px; 
-    color: var(--text-primary); 
-    margin-bottom: 1.5rem; 
-    font-weight: 500;
-  }
-
-  p { 
-    font-size: 17px; 
-    color: var(--text-secondary); 
-    font-weight: 300;
-  }
-
-  /* Keeps your exact project grid from earlier! */
-  .about-grid, .project-grid { 
-    display: grid; 
-    grid-template-columns: 1fr 1fr; 
-    gap: 2.5rem; 
-  }
-
-  .skills-panel.active {
+    padding: 0.5rem 1rem;
+    border-radius: 100px;
+    font-size: 13px;
     display: flex;
-    flex-wrap: wrap; 
-    gap: 16px;
-    margin-top: 1rem;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2rem;
+    backdrop-filter: var(--glass-blur);
   }
+  .badge-dot { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; box-shadow: 0 0 10px #4ade80; }
+  .hero h1 {
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    letter-spacing: -1px;
+  }
+  .grad-text {
+    background: linear-gradient(to right, #ffffff, #94a3b8);
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+  .hero-sub { font-size: 1.25rem; color: var(--text-secondary); max-width: 600px; margin-bottom: 3rem; }
+  .hero-btns { display: flex; gap: 1rem; }
+  .btn-glow {
+    background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border);
+    color: #fff; padding: 1rem 2rem; border-radius: 100px; font-family: 'Outfit'; font-size: 15px;
+    cursor: pointer; backdrop-filter: var(--glass-blur); transition: 0.3s;
+  }
+  .btn-glow:hover { background: rgba(255,255,255,0.2); }
+  .btn-ghost { background: transparent; border: none; color: var(--text-secondary); padding: 1rem 2rem; font-family: 'Outfit'; font-size: 15px; cursor: pointer; transition: 0.3s; }
+  .btn-ghost:hover { color: #fff; }
 
-  .skill-chip {
-    background: var(--skill-chip);
-    border: 1px solid var(--skill-border);
-    color: var(--text-primary);
-    padding: 10px 20px;
-    border-radius: 30px;
-    font-size: 14px;
-    letter-spacing: 1px;
+  /* STATS */
+  .stats {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4rem;
+    padding: 4rem 5%;
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+    background: rgba(0,0,0,0.2);
   }
+  .stat { text-align: center; }
+  .stat-num { font-size: 3.5rem; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 0.5rem; }
+  .stat-label { font-size: 1rem; font-weight: 500; color: var(--accent); margin-bottom: 0.5rem; }
+  .stat-desc { font-size: 0.9rem; color: var(--text-secondary); }
+
+  /* SECTIONS GLOBAL */
+  section { padding: 6rem 5%; max-width: 1200px; margin: 0 auto; }
+  .sec-label { font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: var(--text-secondary); margin-bottom: 1rem; }
+  .sec-title { font-size: 2.5rem; margin-bottom: 3rem; color: #fff; }
+  .divider { height: 1px; background: var(--glass-border); max-width: 1200px; margin: 0 auto; }
+
+  /* GRIDS & CARDS (THE GLASS BOXES) */
+  .about-grid, .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .about-card, .project-card, .resume-box, .contact-box {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    padding: 2.5rem;
+    border-radius: 24px;
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    transition: 0.3s;
+  }
+  .about-card:hover, .project-card:hover {
+    border-color: rgba(255,255,255,0.3);
+    transform: translateY(-5px);
+  }
+  .about-icon { font-size: 2rem; color: #fff; margin-bottom: 1.5rem; }
+  h3 { font-size: 1.25rem; color: #fff; margin-bottom: 1rem; }
+  p { color: var(--text-secondary); }
+
+  /* PROJECTS SPECIFIC */
+  .project-num { font-size: 2rem; color: rgba(255,255,255,0.1); font-weight: 700; margin-bottom: 1rem; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1.5rem 0; }
+  .ptag { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); padding: 0.25rem 0.75rem; border-radius: 100px; font-size: 12px; color: var(--accent); }
+  .view-btn { display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 14px; cursor: pointer; transition: 0.3s; }
+  .project-card:hover .view-btn { color: #fff; }
+
+  /* SKILLS SPECIFIC */
+  .skills-tabs { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+  .stab { background: transparent; border: 1px solid var(--glass-border); color: var(--text-secondary); padding: 0.75rem 1.5rem; border-radius: 100px; font-family: 'Outfit'; cursor: pointer; transition: 0.3s; font-size: 15px; }
+  .stab.active, .stab:hover { background: #fff; color: #000; }
+  .skills-panel { display: none; flex-wrap: wrap; gap: 1rem; }
+  .skills-panel.active { display: flex; }
+  .skill-chip { background: var(--glass-bg); border: 1px solid var(--glass-border); padding: 0.75rem 1.5rem; border-radius: 100px; display: flex; align-items: center; gap: 0.5rem; font-size: 14px; color: #fff; backdrop-filter: var(--glass-blur); }
+  .skill-chip i { color: var(--text-secondary); }
+
+  /* TIMELINE */
+  .tl { border-left: 1px solid var(--glass-border); padding-left: 2.5rem; margin-left: 1rem; display: flex; flex-direction: column; gap: 3rem; }
+  .tl-item { position: relative; }
+  .tl-dot { position: absolute; left: -2.85rem; top: 0; width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 2px solid #000; box-shadow: 0 0 10px rgba(255,255,255,0.5); }
+  .tl-date { font-size: 13px; color: var(--text-secondary); margin-bottom: 0.5rem; letter-spacing: 1px; text-transform: uppercase; }
+  .tl-role { font-size: 1.25rem; color: #fff; font-weight: 500; margin-bottom: 0.25rem; font-family: 'Syne'; }
+  .tl-company { color: var(--accent); margin-bottom: 1rem; font-size: 15px; }
+
+  /* RESUME */
+  .resume-box { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; }
+  .resume-preview { display: flex; flex-direction: column; gap: 0.5rem; }
+  .resume-preview i { font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem; }
+  .resume-preview-title { font-size: 1.25rem; font-weight: 500; color: #fff; font-family: 'Syne'; }
+  .resume-preview-sub { color: var(--text-secondary); font-size: 14px; }
+  .resume-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .res-btn { padding: 0.75rem 1.5rem; border-radius: 100px; text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 0.5rem; transition: 0.3s; border: 1px solid transparent; }
+  .res-btn-primary { background: #fff; color: #000; }
+  .res-btn-secondary { background: rgba(255,255,255,0.05); border-color: var(--glass-border); color: #fff; }
+  .res-btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+  /* CONTACT */
+  .contact-box { text-align: center; }
+  .contact-box h2 { font-size: 3rem; margin-bottom: 1rem; color: #fff; }
+  .contact-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 2.5rem; flex-wrap: wrap; }
+  .clink { display: flex; align-items: center; gap: 0.5rem; color: #fff; text-decoration: none; font-size: 1.1rem; padding: 1rem 2rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 100px; transition: 0.3s; }
+  .clink:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px); }
+
+  footer { text-align: center; padding: 3rem; color: var(--text-secondary); font-size: 14px; }
+
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); z-index: 1000; justify-content: center; align-items: center; padding: 2rem; }
+  .modal { background: #0f172a; border: 1px solid var(--glass-border); padding: 3rem; border-radius: 24px; max-width: 600px; width: 100%; position: relative; }
+  .modal-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
 
   @media (max-width: 768px) {
-    main { padding: 2.5rem 1.5rem; margin: 1.5rem; border-radius: 20px; }
-    h1, .hero h1 { font-size: 32px; letter-spacing: 1px; }
-    .about-grid, .project-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; } /* Simplified mobile nav */
+    .hero h1 { font-size: 2.5rem; }
+    .stats { flex-direction: column; gap: 2rem; }
+    .resume-box { flex-direction: column; align-items: flex-start; }
+    .contact-links { flex-direction: column; }
   }
 </style>
 </head>
@@ -114,7 +232,6 @@
 
 <div class="layer">
 
-<!-- NAV -->
 <nav>
   <div class="logo">GG · Bernal</div>
   <div class="nav-links">
@@ -128,9 +245,7 @@
   </div>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
-  <div class="hero-glow"></div>
   <div class="badge"><span class="badge-dot"></span>Open to remote roles</div>
   <h1><span class="grad-text">Operations &<br>Systems Thinker</span></h1>
   <p class="hero-sub">I find where teams lose time — then build what fixes it.</p>
@@ -140,7 +255,6 @@
   </div>
 </div>
 
-<!-- STATS -->
 <div class="stats">
   <div class="stat">
     <div class="stat-num">5+</div>
@@ -161,7 +275,6 @@
 
 <div class="divider"></div>
 
-<!-- ABOUT -->
 <section id="about">
   <div class="sec-label">About</div>
   <div class="sec-title">Not just ops — systems synthesis</div>
@@ -191,7 +304,6 @@
 
 <div class="divider"></div>
 
-<!-- PROJECTS -->
 <section id="projects">
   <div class="sec-label">Case studies</div>
   <div class="sec-title">Things I built that shipped</div>
@@ -229,7 +341,6 @@
 
 <div class="divider"></div>
 
-<!-- SKILLS -->
 <section id="skills">
   <div class="sec-label">Skills</div>
   <div class="sec-title">Tools I actually work in</div>
@@ -284,7 +395,6 @@
 
 <div class="divider"></div>
 
-<!-- TIMELINE -->
 <section id="timeline">
   <div class="sec-label">Timeline</div>
   <div class="sec-title">5 years, every layer</div>
@@ -322,7 +432,6 @@
 
 <div class="divider"></div>
 
-<!-- RESUME -->
 <section id="resume">
   <div class="sec-label">Resume</div>
   <div class="sec-title">Full work history & skills</div>
@@ -333,7 +442,6 @@
       <div class="resume-preview-sub">Operations & Systems Professional · 5+ years · Cebu City, PH</div>
     </div>
     <div class="resume-actions">
-      <!-- REPLACE # WITH YOUR GOOGLE DRIVE OR NOTION PDF LINK -->
       <a href="#" class="res-btn res-btn-primary" target="_blank"><i class="ti ti-download"></i>Download PDF</a>
       <a href="#" class="res-btn res-btn-secondary" target="_blank"><i class="ti ti-eye"></i>View full resume</a>
     </div>
@@ -342,11 +450,10 @@
 
 <div class="divider"></div>
 
-<!-- CONTACT -->
 <section id="contact">
   <div class="contact-box">
     <h2>Let's build something</h2>
-    <p>Open to remote ops roles. Fast learner, fast shipper.</p>
+    <p style="margin-bottom: 2rem;">Open to remote ops roles. Fast learner, fast shipper.</p>
     <div class="contact-links">
       <a class="clink" href="mailto:goldenbernal@gmail.com"><i class="ti ti-mail"></i>goldenbernal@gmail.com</a>
       <a class="clink" href="tel:+639169682036"><i class="ti ti-phone"></i>+63 (916) 968-2036</a>
@@ -356,10 +463,7 @@
 
 <footer>© 2026 Golden Grace Bernal &nbsp;·&nbsp; Cebu City, Philippines</footer>
 
-</div><!-- /.layer -->
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+</div><div class="modal-overlay" id="modal" onclick="closeModal(event)">
   <div class="modal">
     <button class="modal-close" onclick="closeModal(null,true)"><i class="ti ti-x"></i></button>
     <div id="modal-content"></div>
@@ -367,7 +471,29 @@
 </div>
 
 <script>
-  const canvas = document.getElementById('bg'); /* Connects to your existing canvas */
+  /* ---------- UI FUNCTIONS ---------- */
+  function scroll2(id) {
+    document.getElementById(id).scrollIntoView({behavior: 'smooth'});
+  }
+
+  function switchTab(tab, btn) {
+    document.querySelectorAll('.skills-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.stab').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  function openModal(id) {
+    document.getElementById('modal').style.display = 'flex';
+    document.getElementById('modal-content').innerHTML = `<h3 style="color:white; margin-bottom: 1rem; font-family:'Syne'">Case Study</h3><p style="color:#94a3b8; font-family:'Outfit'">Detailed breakdown is under construction.</p>`;
+  }
+
+  function closeModal(e, force=false) {
+    if(force || e.target.id === 'modal') document.getElementById('modal').style.display = 'none';
+  }
+
+  /* ---------- CRYSTALLINE BACKGROUND ---------- */
+  const canvas = document.getElementById('bg'); 
   const ctx = canvas.getContext('2d');
   let W, H;
   
@@ -416,7 +542,6 @@
   function animate() {
     ctx.clearRect(0, 0, W, H);
     
-    /* Subtle central deep blue glow for depth behind the glass */
     const gradient = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, W);
     gradient.addColorStop(0, '#02111a'); 
     gradient.addColorStop(1, '#000000'); 
