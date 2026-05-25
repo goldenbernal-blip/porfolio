@@ -8,186 +8,101 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
 <style>
-:root{
-  --purple:#7c3aed;
-  --purple-light:#a78bfa;
-  --purple-dim:rgba(124,58,237,0.15);
-  --cyan:#06b6d4;
-  --cyan-light:#67e8f9;
-  --pink:#ec4899;
-  --bg:#060914;
-  --surface:rgba(255,255,255,0.03);
-  --border:rgba(255,255,255,0.07);
-  --border-accent:rgba(139,92,246,0.25);
-  --text:#e2e8f0;
-  --text-muted:rgba(226,232,240,0.45);
-  --text-dim:rgba(226,232,240,0.25);
-  --radius:14px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;font-size:16px;line-height:1.6}
-h1,h2,h3,.logo{font-family:'Syne',sans-serif}
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500&family=Syne:wght@500;700&display=swap');
 
-/* CANVAS + ORBS */
-canvas#bg{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
-.orb{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;opacity:.9}
-.orb1{width:550px;height:550px;background:rgba(109,40,217,.2);top:-120px;left:-120px;animation:drift1 16s ease-in-out infinite}
-.orb2{width:450px;height:450px;background:rgba(6,182,212,.13);bottom:-100px;right:-100px;animation:drift2 20s ease-in-out infinite}
-.orb3{width:320px;height:320px;background:rgba(236,72,153,.09);top:45%;left:55%;transform:translate(-50%,-50%);animation:drift3 26s ease-in-out infinite}
-@keyframes drift1{0%,100%{transform:translate(0,0)}50%{transform:translate(70px,50px)}}
-@keyframes drift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-55px,-35px)}}
-@keyframes drift3{0%,100%{transform:translate(-50%,-50%)}50%{transform:translate(-38%,-62%)}}
+  :root {
+    --glass-bg: rgba(255, 255, 255, 0.03); 
+    --glass-border: rgba(255, 255, 255, 0.12); 
+    --glass-blur: blur(25px); 
+    --text-primary: #f8fafc; 
+    --text-secondary: #94a3b8; 
+    --skill-chip: rgba(255, 255, 255, 0.05);
+    --skill-border: rgba(255, 255, 255, 0.15);
+  }
 
-/* LAYOUT */
-.layer{position:relative;z-index:1}
+  * { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* NAV */
-nav{display:flex;align-items:center;justify-content:space-between;padding:1rem 2.5rem;background:rgba(6,9,20,.55);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:.5px solid rgba(139,92,246,.15);position:sticky;top:0;z-index:100}
-.logo{font-size:13px;font-weight:600;color:var(--purple-light);letter-spacing:3px;text-transform:uppercase}
-.nav-links{display:flex;gap:2rem;align-items:center}
-.nav-links a{font-size:11px;color:var(--text-muted);text-decoration:none;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;transition:color .2s;font-weight:500}
-.nav-links a:hover{color:var(--purple-light)}
-.nav-cta{padding:7px 18px;border:.5px solid var(--border-accent);border-radius:20px;color:var(--purple-light);font-size:11px;background:var(--purple-dim);cursor:pointer;letter-spacing:1px;text-transform:uppercase;font-weight:600;transition:background .2s;font-family:'DM Sans',sans-serif}
-.nav-cta:hover{background:rgba(124,58,237,.25)}
+  body {
+    background-color: #000; 
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif; 
+    line-height: 1.7;
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+  }
 
-/* HERO */
-.hero{padding:8rem 2.5rem 5rem;max-width:900px;margin:0 auto;text-align:center;position:relative}
-.hero-glow{position:absolute;top:40%;left:50%;transform:translate(-50%,-50%);width:700px;height:350px;background:radial-gradient(ellipse,rgba(109,40,217,.18) 0%,transparent 68%);pointer-events:none}
-.badge{display:inline-flex;align-items:center;gap:8px;font-size:11px;color:var(--purple-light);letter-spacing:2px;text-transform:uppercase;border:.5px solid rgba(139,92,246,.2);background:rgba(139,92,246,.06);padding:6px 16px;border-radius:20px;margin-bottom:2.5rem;backdrop-filter:blur(8px);font-weight:600}
-.badge-dot{width:7px;height:7px;background:var(--purple-light);border-radius:50%;animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(167,139,250,.4)}50%{opacity:.5;box-shadow:0 0 0 6px rgba(167,139,250,0)}}
-.hero h1{font-size:58px;font-weight:600;line-height:1.06;margin-bottom:1.5rem;letter-spacing:-1px}
-.grad-text{background:linear-gradient(135deg,#f0f9ff 0%,#c4b5fd 35%,#67e8f9 70%,#f0abfc 100%);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 7s ease infinite}
-@keyframes shimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-.hero-sub{font-size:17px;color:var(--text-muted);line-height:1.7;max-width:440px;margin:0 auto 3rem;font-weight:300}
-.hero-btns{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap}
-.btn-glow{padding:13px 30px;background:linear-gradient(135deg,var(--purple),var(--cyan));color:#fff;font-size:13px;font-weight:600;border:none;border-radius:10px;cursor:pointer;transition:opacity .2s;font-family:'DM Sans',sans-serif;letter-spacing:.5px}
-.btn-glow:hover{opacity:.85}
-.btn-ghost{padding:13px 30px;background:rgba(139,92,246,.07);color:var(--purple-light);font-size:13px;font-weight:500;border:.5px solid rgba(139,92,246,.25);border-radius:10px;cursor:pointer;backdrop-filter:blur(8px);transition:background .2s;font-family:'DM Sans',sans-serif}
-.btn-ghost:hover{background:rgba(139,92,246,.15)}
+  /* This turns your existing main content area into the Glass Box! */
+  main {
+    position: relative;
+    z-index: 10; 
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 32px; 
+    padding: 5rem 4rem; 
+    max-width: 900px; 
+    margin: 4rem auto; /* Centers the box */
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur); 
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+  }
 
-/* STATS */
-.stats{display:flex;justify-content:center;max-width:680px;margin:0 auto 0;flex-wrap:wrap}
-.stat{text-align:center;padding:2.5rem 3rem;position:relative}
-.stat+.stat::before{content:'';position:absolute;left:0;top:28%;height:44%;width:.5px;background:rgba(139,92,246,.2)}
-.stat-num{font-size:38px;font-weight:600;background:linear-gradient(135deg,#c4b5fd,#67e8f9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;font-family:'Syne',sans-serif}
-.stat-label{font-size:11px;color:var(--text-muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:6px;font-weight:500}
-.stat-desc{font-size:12px;color:var(--text-dim);margin-top:4px}
+  section { margin-bottom: 4rem; }
+  
+  h1, .hero h1 { 
+    font-family: 'Syne', sans-serif; 
+    font-size: 52px; 
+    letter-spacing: 3px; 
+    margin-bottom: 2.5rem; 
+    font-weight: 700; 
+    text-transform: uppercase;
+  }
 
-/* DIVIDER */
-.divider{width:100%;height:.5px;background:linear-gradient(90deg,transparent,rgba(139,92,246,.3),rgba(103,232,249,.15),transparent);margin:0}
+  h2, h3 { 
+    font-family: 'Syne', sans-serif;
+    font-size: 16px; 
+    text-transform: uppercase; 
+    letter-spacing: 2px; 
+    color: var(--text-primary); 
+    margin-bottom: 1.5rem; 
+    font-weight: 500;
+  }
 
-/* SECTIONS */
-section{max-width:900px;margin:0 auto;padding:8rem 2.5rem}
-.sec-label{font-size:10px;color:var(--purple-light);letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;font-weight:600}
-.sec-title{font-size:28px;font-weight:600;color:#f0f9ff;margin-bottom:2.5rem;letter-spacing:-.5px}
+  p { 
+    font-size: 17px; 
+    color: var(--text-secondary); 
+    font-weight: 300;
+  }
 
-/* ABOUT */
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem}
-.about-card{padding:1.75rem;border-radius:var(--radius);background:var(--surface);border:.5px solid var(--border);backdrop-filter:blur(12px);transition:border-color .3s,background .3s}
-.about-card:hover{border-color:rgba(139,92,246,.35);background:rgba(139,92,246,.05)}
-.about-icon{font-size:22px;color:var(--purple-light);margin-bottom:1rem;display:block}
-.about-card h3{font-size:14px;font-weight:600;color:#f0f9ff;margin-bottom:8px;font-family:'Syne',sans-serif}
-.about-card p{font-size:13px;color:var(--text-muted);line-height:1.65}
+  /* Keeps your exact project grid from earlier! */
+  .about-grid, .project-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 2.5rem; 
+  }
 
-/* PROJECTS */
-.project-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem}
-.project-card{padding:1.75rem;border-radius:var(--radius);background:var(--surface);border:.5px solid var(--border);cursor:pointer;transition:all .28s;position:relative;overflow:hidden;backdrop-filter:blur(12px)}
-.project-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,rgba(139,92,246,.6),rgba(103,232,249,.4),transparent);opacity:0;transition:opacity .28s}
-.project-card:hover{border-color:rgba(139,92,246,.4);background:rgba(139,92,246,.06);transform:translateY(-4px)}
-.project-card:hover::before{opacity:1}
-.project-num{font-size:10px;color:rgba(167,139,250,.4);letter-spacing:2px;margin-bottom:10px;font-weight:600}
-.project-card h3{font-size:16px;font-weight:600;color:#f0f9ff;margin-bottom:12px;font-family:'Syne',sans-serif}
-.project-card p{font-size:12px;color:var(--text-muted);line-height:1.55;margin-bottom:1.25rem}
-.project-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:.75rem}
-.ptag{font-size:10px;color:var(--purple-light);background:rgba(139,92,246,.08);border:.5px solid rgba(139,92,246,.18);padding:3px 10px;border-radius:20px;font-weight:500}
-.view-btn{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--cyan-light);letter-spacing:.5px;font-weight:500}
-.view-btn i{font-size:14px}
+  .skills-panel.active {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 16px;
+    margin-top: 1rem;
+  }
 
-/* SKILLS */
-.skills-tabs{display:flex;gap:8px;margin-bottom:1.75rem;flex-wrap:wrap}
-.stab{padding:7px 18px;border-radius:20px;font-size:12px;cursor:pointer;border:.5px solid var(--border);color:var(--text-muted);background:transparent;transition:all .2s;font-family:'DM Sans',sans-serif;font-weight:500}
-.stab.active{background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.35);color:var(--purple-light)}
-.stab:hover:not(.active){border-color:rgba(255,255,255,.12);color:var(--text)}
-.skills-panel{display:none}
-.skills-panel.active{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:16px}
-.skill-chip{padding:11px 15px;border-radius:10px;background:var(--surface);border:.5px solid var(--border);font-size:12px;color:rgba(226,232,240,.65);display:flex;align-items:center;gap:9px;transition:all .22s;backdrop-filter:blur(6px);font-weight:400}
-.skill-chip:hover{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.3);color:#f0f9ff}
-.skill-chip i{color:var(--purple-light);font-size:16px;flex-shrink:0}
+  .skill-chip {
+    background: var(--skill-chip);
+    border: 1px solid var(--skill-border);
+    color: var(--text-primary);
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
 
-/* TIMELINE */
-.tl{position:relative;padding-left:2rem}
-.tl::before{content:'';position:absolute;left:6px;top:10px;bottom:10px;width:.5px;background:linear-gradient(180deg,var(--purple),var(--cyan),transparent)}
-.tl-item{position:relative;margin-bottom:2.75rem}
-.tl-dot{position:absolute;left:-2rem;top:5px;width:13px;height:13px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--cyan));box-shadow:0 0 14px rgba(109,40,217,.5)}
-.tl-date{font-size:10px;color:var(--purple-light);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;font-weight:600}
-.tl-role{font-size:15px;font-weight:600;color:#f0f9ff;margin-bottom:3px;font-family:'Syne',sans-serif}
-.tl-company{font-size:12px;color:var(--text-dim);margin-bottom:8px}
-.tl-desc{font-size:13px;color:var(--text-muted);line-height:1.65}
-
-/* RESUME */
-.resume-box{background:var(--surface);border:.5px solid var(--border);border-radius:20px;padding:2.5rem;backdrop-filter:blur(12px)}
-.resume-preview{width:100%;height:260px;border-radius:12px;background:rgba(0,0,0,.25);border:.5px dashed rgba(139,92,246,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;margin-bottom:2rem;position:relative;overflow:hidden}
-.resume-preview::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(109,40,217,.06),rgba(6,182,212,.06))}
-.resume-preview i{font-size:52px;color:rgba(139,92,246,.35)}
-.resume-preview-title{font-size:16px;font-weight:600;color:#f0f9ff;font-family:'Syne',sans-serif}
-.resume-preview-sub{font-size:13px;color:var(--text-muted);text-align:center;max-width:300px;line-height:1.5}
-.resume-actions{display:flex;gap:1rem;flex-wrap:wrap}
-.res-btn{display:flex;align-items:center;gap:8px;padding:12px 22px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;text-decoration:none}
-.res-btn-primary{background:linear-gradient(135deg,var(--purple),#0891b2);color:#fff;border:none}
-.res-btn-primary:hover{opacity:.85}
-.res-btn-secondary{background:rgba(139,92,246,.08);color:var(--purple-light);border:.5px solid rgba(139,92,246,.25)}
-.res-btn-secondary:hover{background:rgba(139,92,246,.16)}
-
-/* CONTACT */
-.contact-box{text-align:center;padding:4rem 3rem;border-radius:24px;background:rgba(255,255,255,.025);border:.5px solid rgba(139,92,246,.15);backdrop-filter:blur(14px);position:relative;overflow:hidden}
-.contact-box::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:250px;background:radial-gradient(ellipse,rgba(109,40,217,.14),transparent 70%);pointer-events:none}
-.contact-box h2{font-size:36px;font-weight:600;background:linear-gradient(135deg,#c4b5fd,#67e8f9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:1rem;letter-spacing:-.5px}
-.contact-box p{font-size:15px;color:var(--text-muted);margin-bottom:2rem;font-weight:300}
-.contact-links{display:flex;justify-content:center;gap:1rem;flex-wrap:wrap}
-.clink{display:flex;align-items:center;gap:9px;padding:12px 22px;border:.5px solid rgba(139,92,246,.25);border-radius:10px;color:var(--purple-light);font-size:13px;text-decoration:none;background:rgba(139,92,246,.07);backdrop-filter:blur(8px);transition:background .2s;font-weight:500}
-.clink:hover{background:rgba(139,92,246,.16)}
-
-/* MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(6,9,20,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);z-index:500;align-items:center;justify-content:center;padding:2rem}
-.modal-overlay.open{display:flex}
-.modal{background:rgba(12,18,38,.97);border:.5px solid rgba(139,92,246,.25);border-radius:22px;padding:2.5rem;max-width:620px;width:100%;position:relative;max-height:85vh;overflow-y:auto}
-.modal-close{position:absolute;top:1.25rem;right:1.25rem;background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.08);color:rgba(226,232,240,.5);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:background .2s}
-.modal-close:hover{background:rgba(255,255,255,.1)}
-.modal h2{font-size:22px;font-weight:600;color:#f0f9ff;margin-bottom:6px;font-family:'Syne',sans-serif;letter-spacing:-.3px}
-.modal-meta{font-size:11px;color:var(--purple-light);margin-bottom:1.5rem;letter-spacing:1.5px;text-transform:uppercase;font-weight:600}
-.media-placeholder{width:100%;height:220px;background:rgba(139,92,246,.05);border:.5px dashed rgba(139,92,246,.22);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;margin-bottom:1.5rem;color:rgba(226,232,240,.2);font-size:13px;cursor:pointer;transition:background .2s}
-.media-placeholder:hover{background:rgba(139,92,246,.09)}
-.media-placeholder i{font-size:36px;color:rgba(139,92,246,.3)}
-.modal-body{font-size:14px;color:rgba(226,232,240,.55);line-height:1.75;margin-bottom:1.5rem}
-.modal-tags{display:flex;flex-wrap:wrap;gap:6px}
-
-footer{text-align:center;padding:2.5rem;font-size:11px;color:rgba(226,232,240,.15);border-top:.5px solid rgba(255,255,255,.04);letter-spacing:1px}
-
-/* SCROLLBAR */
-::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:rgba(139,92,246,.3);border-radius:4px}
   @media (max-width: 768px) {
-  .about-grid, .project-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    main { padding: 2.5rem 1.5rem; margin: 1.5rem; border-radius: 20px; }
+    h1, .hero h1 { font-size: 32px; letter-spacing: 1px; }
+    .about-grid, .project-grid { grid-template-columns: 1fr; }
   }
-  .hero h1 {
-    font-size: 42px;
-  }
-  section {
-    padding: 5rem 1.5rem;
-  }
-  .stats {
-    flex-direction: column;
-    gap: 2rem;
-  }
-  .stat+.stat::before {
-    display: none;
-  }
-}
 </style>
 </head>
 <body>
@@ -452,127 +367,84 @@ footer{text-align:center;padding:2.5rem;font-size:11px;color:rgba(226,232,240,.1
 </div>
 
 <script>
-/* ---------- PROJECT DATA ---------- */
-const projects = {
-  p1:{
-    title:"AI Data Intake Pipeline",
-    meta:"Claude API · Zapier · Google Apps Script",
-    desc:"Replaced chaotic manual data entry with an AI-powered pipeline. Unstructured requests come in any format — Claude parses and structures them into clean JSON, routed via webhook through Zapier into Google Sheets, then cleaned and deduplicated via Apps Script. Eliminated hours of manual field-by-field entry for bulk team requests.",
-    tags:["Claude API","Zapier","Apps Script","JSON","Webhooks","Google Sheets"]
-  },
-  p2:{
-    title:"Slack Asset Router Bot",
-    meta:"Vercel · Node.js · Slack API",
-    desc:"Built a live serverless API endpoint on Vercel handling Slack slash commands (/caffpeach, /checkstands). Team members pull specific retail asset links instantly — no Drive hunting, no context switching. Deployed and maintained via terminal.",
-    tags:["Vercel","Node.js","Slack API","Serverless","JavaScript"]
-  },
-  p3:{
-    title:"Notion Resource Hub",
-    meta:"Notion · SOPs · Knowledge Management",
-    desc:"Designed and built a complete internal resource hub in Notion for onboarding, training, SOP documentation, and team-wide knowledge management. Also built a commercial-facing resource hub for client use. Structured for clarity and easy navigation across distributed teams.",
-    tags:["Notion","SOPs","Onboarding","Knowledge Base","Documentation"]
-  },
-  p4:{
-    title:"Canva Design System",
-    meta:"Canva · Brand · Sales Enablement",
-    desc:"Created a full library of sales-ready assets — pitch decks, sell sheets, team hub templates, onboarding materials, and brand-aligned collateral — built at scale across multiple brands. Followed brand guidelines and unblocked sales teams with ready-to-use, editable templates.",
-    tags:["Canva","Pitch Decks","Sell Sheets","Brand Assets","Sales Enablement"]
+  const canvas = document.getElementById('bg'); /* Connects to your existing canvas */
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
   }
-};
+  resize();
+  window.addEventListener('resize', resize);
 
-function openModal(id) {
-  const p = projects[id];
-  document.getElementById('modal-content').innerHTML = `
-    <h2>${p.title}</h2>
-    <div class="modal-meta">${p.meta}</div>
-    <div class="media-placeholder">
-      <i class="ti ti-player-play"></i>
-      <span>Add your screenshot or video URL here</span>
-    </div>
-    <div class="modal-body">${p.desc}</div>
-    <div class="modal-tags">${p.tags.map(t=>`<span class="ptag">${t}</span>`).join('')}</div>
-  `;
-  document.getElementById('modal').classList.add('open');
-}
-function closeModal(e, force) {
-  if (force || e.target === document.getElementById('modal'))
-    document.getElementById('modal').classList.remove('open');
-}
-function scroll2(id) {
-  document.getElementById(id).scrollIntoView({behavior:'smooth'});
-}
-function switchTab(name, el) {
-  document.querySelectorAll('.skills-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.stab').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + name).classList.add('active');
-  el.classList.add('active');
-}
+  let particles = [];
+  const particleCount = Math.floor((W * H) / 3000); 
 
-/* ---------- ANIMATED BACKGROUND ---------- */
-const canvas = document.getElementById('bg');
-const ctx = canvas.getContext('2d');
-let W, H, particles = [];
+  class CrystallineParticle {
+    constructor() { this.reset(); }
 
-function resize() {
-  W = canvas.width = window.innerWidth;
-  H = canvas.height = window.innerHeight;
-}
-resize();
-window.addEventListener('resize', resize);
+    reset() {
+      this.x = Math.random() * W; this.y = Math.random() * H;
+      this.r = Math.random() * 0.8 + 0.1; 
+      this.o = Math.random() * 0.3; 
+      this.vx = (Math.random() - 0.5) * 0.15;
+      this.vy = (Math.random() - 0.5) * 0.15;
+      this.life = Math.random() * 500 + 200; this.maxLife = this.life;
+      this.shimmerSpeed = Math.random() * 0.01;
+    }
 
-const colors = ['rgba(167,139,250,','rgba(103,232,249,','rgba(236,72,153,','rgba(139,92,246,'];
+    update() {
+      this.x += this.vx; this.y += this.vy; this.life--;
+      if (this.x < 0) this.x = W; if (this.x > W) this.x = 0;
+      if (this.y < 0) this.y = H; if (this.y > H) this.y = 0;
+      if (this.life <= 0) this.reset();
+    }
 
-// MAGIC FIX: Use 280 particles on laptop, but only 100 on phone so it doesn't lag
-const particleCount = window.innerWidth > 768 ? 280 : 100;
-// Make the lines reach further on laptop
-const connectDistance = window.innerWidth > 768 ? 180 : 135;
-
-for (let i = 0; i < particleCount; i++) {
-  particles.push({
-    x: Math.random() * 2200, y: Math.random() * 1600,
-    vx: (Math.random() - .5) * 0.22, vy: (Math.random() - .5) * 0.22,
-    r: Math.random() * 1.8 + 0.4, o: Math.random() * 0.4 + 0.08,
-    c: colors[Math.floor(Math.random() * colors.length)],
-    tw: Math.random() * Math.PI * 2, ts: 0.015 + Math.random() * 0.02
-  });
-}
-
-function draw() {
-  ctx.clearRect(0, 0, W, H);
-  particles.forEach(p => {
-    p.x += p.vx; p.y += p.vy; p.tw += p.ts;
-    if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
-    if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
-    const o = p.o * (0.65 + 0.35 * Math.sin(p.tw));
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = p.c + o + ')';
-    ctx.fill();
-  });
-
-  for (let i = 0; i < particles.length; i++) {
-    const a = particles[i];
-    for (let j = i + 1; j < Math.min(i + 7, particles.length); j++) {
-      const b = particles[j];
-      const dx = a.x - b.x, dy = a.y - b.y;
-      const d = Math.sqrt(dx * dx + dy * dy);
-      if (d < connectDistance) {
-        const alpha = 0.15 * (1 - d / connectDistance);
-        const g = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
-        g.addColorStop(0, a.c + alpha + ')');
-        g.addColorStop(1, b.c + (alpha * .6) + ')');
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
-        ctx.strokeStyle = g;
-        ctx.lineWidth = 0.8;
-        ctx.stroke();
-      }
+    draw() {
+      const shimmer = 0.5 + 0.5 * Math.sin(Date.now() * this.shimmerSpeed);
+      const alpha = this.o * shimmer * (this.life / this.maxLife);
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`; 
+      ctx.fill();
     }
   }
-  requestAnimationFrame(draw);
-}
-draw();
+
+  for (let i = 0; i < particleCount; i++) { particles.push(new CrystallineParticle()); }
+
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+    
+    /* Subtle central deep blue glow for depth behind the glass */
+    const gradient = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, W);
+    gradient.addColorStop(0, '#02111a'); 
+    gradient.addColorStop(1, '#000000'); 
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, W, H);
+
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw();
+      
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < 60) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(255, 255, 255, ${0.05 * (1 - distance / 60)})`;
+          ctx.lineWidth = 0.4;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(animate);
+  }
+  animate();
 </script>
 </body>
 </html>
