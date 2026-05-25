@@ -521,17 +521,19 @@ resize();
 window.addEventListener('resize', resize);
 
 const colors = ['rgba(167,139,250,','rgba(103,232,249,','rgba(236,72,153,','rgba(139,92,246,'];
-for (let i = 0; i < 110; i++) {
+
+// MAGIC FIX: Use 280 particles on laptop, but only 100 on phone so it doesn't lag
+const particleCount = window.innerWidth > 768 ? 280 : 100;
+// Make the lines reach further on laptop
+const connectDistance = window.innerWidth > 768 ? 180 : 135;
+
+for (let i = 0; i < particleCount; i++) {
   particles.push({
-    x: Math.random() * 2200,
-    y: Math.random() * 1600,
-    vx: (Math.random() - .5) * 0.22,
-    vy: (Math.random() - .5) * 0.22,
-    r: Math.random() * 1.8 + 0.4,
-    o: Math.random() * 0.4 + 0.08,
+    x: Math.random() * 2200, y: Math.random() * 1600,
+    vx: (Math.random() - .5) * 0.22, vy: (Math.random() - .5) * 0.22,
+    r: Math.random() * 1.8 + 0.4, o: Math.random() * 0.4 + 0.08,
     c: colors[Math.floor(Math.random() * colors.length)],
-    tw: Math.random() * Math.PI * 2,
-    ts: 0.015 + Math.random() * 0.02
+    tw: Math.random() * Math.PI * 2, ts: 0.015 + Math.random() * 0.02
   });
 }
 
@@ -547,14 +549,15 @@ function draw() {
     ctx.fillStyle = p.c + o + ')';
     ctx.fill();
   });
+
   for (let i = 0; i < particles.length; i++) {
     const a = particles[i];
     for (let j = i + 1; j < Math.min(i + 7, particles.length); j++) {
       const b = particles[j];
       const dx = a.x - b.x, dy = a.y - b.y;
       const d = Math.sqrt(dx * dx + dy * dy);
-      if (d < 135) {
-        const alpha = 0.12 * (1 - d / 135);
+      if (d < connectDistance) {
+        const alpha = 0.15 * (1 - d / connectDistance);
         const g = ctx.createLinearGradient(a.x, a.y, b.x, b.y);
         g.addColorStop(0, a.c + alpha + ')');
         g.addColorStop(1, b.c + (alpha * .6) + ')');
@@ -562,7 +565,7 @@ function draw() {
         ctx.moveTo(a.x, a.y);
         ctx.lineTo(b.x, b.y);
         ctx.strokeStyle = g;
-        ctx.lineWidth = 0.5;
+        ctx.lineWidth = 0.8;
         ctx.stroke();
       }
     }
